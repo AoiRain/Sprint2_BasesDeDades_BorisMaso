@@ -1,23 +1,23 @@
-DROP DATABASE IF EXISTS pizzería_boris_masó;
-CREATE DATABASE pizzería_boris_masó CHARACTER SET utf8mb4;
-USE pizzería_boris_masó;
+DROP DATABASE IF EXISTS pizzeria_boris_maso;
+CREATE DATABASE pizzeria_boris_maso CHARACTER SET utf8mb4;
+USE pizzeria_boris_maso;
 
 CREATE TABLE clientes (
 	id INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
     nombre VARCHAR(25) NOT NULL,
     apellido1 VARCHAR(50) NOT NULL,
     apellido2 VARCHAR(50) NOT NULL,
-    dirección VARCHAR(50) NOT NULL,
-    código_postal VARCHAR(5) NOT NULL,
+    direccion VARCHAR(50) NOT NULL,
+    codigo_postal VARCHAR(5) NOT NULL,
     localidad VARCHAR(25) NOT NULL,
     provincia VARCHAR(25) NOT NULL,
-    teléfono VARCHAR(9) NOT NULL
+    telefono VARCHAR(9) NOT NULL
 );
 
 CREATE TABLE tiendas (
 	id INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
-    dirección VARCHAR(50) NOT NULL,
-    código_postal VARCHAR(5) NOT NULL,
+    direccion VARCHAR(50) NOT NULL,
+    codigo_postal VARCHAR(5) NOT NULL,
     localidad VARCHAR(25) NOT NULL,
     provincia VARCHAR(25) NOT NULL
 );
@@ -28,13 +28,13 @@ CREATE TABLE empleados (
     apellido1 VARCHAR(50) NOT NULL,
     apellido2 VARCHAR(50) NOT NULL,
     NIF VARCHAR(9) NOT NULL,
-    teléfono VARCHAR(9) NOT NULL,
+    telefono VARCHAR(9) NOT NULL,
     tipo ENUM("cocinero", "repartidor") NOT NULL,
     id_tienda INT UNSIGNED NOT NULL,
     FOREIGN KEY (id_tienda) REFERENCES tiendas(id)
 );
 
-CREATE TABLE categorías (
+CREATE TABLE categorias (
 	id INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
     nombre VARCHAR(25) NOT NULL
 );
@@ -42,12 +42,12 @@ CREATE TABLE categorías (
 CREATE TABLE productos (
 	id INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
 	nombre VARCHAR(25) NOT NULL,
-    descripción VARCHAR(100) NOT NULL,
+    descripcion VARCHAR(100) NOT NULL,
     imagen VARCHAR(100) NOT NULL,
     precio FLOAT NOT NULL,
     tipo ENUM("pizza", "hamburguesa", "bebida") NOT NULL,
-    id_categoría INT UNSIGNED,
-    FOREIGN KEY (id_categoría) REFERENCES categorías(id)
+    id_categoria INT UNSIGNED,
+    FOREIGN KEY (id_categoria) REFERENCES categorias(id)
 );
 
 CREATE TABLE comandas (
@@ -75,26 +75,26 @@ CREATE TABLE comandas (
 );
 
 INSERT INTO clientes VALUES(1, "Pau", "Garriga", "Villahorta", "Calle Vallespir, 14", "08014", "Barcelona", "Barcelona", "639896754");
-INSERT INTO clientes VALUES(2, "Joan", "Rodríguez", "Vilanueva", "Avenida Madrid, 134", "08022", "Barcelona", "Barcelona", "636453421");
-INSERT INTO clientes VALUES(3, "Boris", "Masó", "Uzcudun", "Calle Alcolea, 100", "01023", "Gerona", "Gerona", "634546543");
-INSERT INTO clientes VALUES(4, "Sandra", "Ángel", "Amor", "Calle del Cielo, 100", "01010", "Gerona", "Gerona", "610101010");
+INSERT INTO clientes VALUES(2, "Joan", "Rodriguez", "Vilanueva", "Avenida Madrid, 134", "08022", "Barcelona", "Barcelona", "636453421");
+INSERT INTO clientes VALUES(3, "Boris", "Maso", "Uzcudun", "Calle Alcolea, 100", "01023", "Gerona", "Gerona", "634546543");
+INSERT INTO clientes VALUES(4, "Sandra", "Angel", "Amor", "Calle del Cielo, 100", "01010", "Gerona", "Gerona", "610101010");
 
 INSERT INTO tiendas VALUES(1, "Avenida Madrid, 14", "08014", "Barcelona", "Barcelona");
 INSERT INTO tiendas VALUES(2, "Avenida del Ficus, 2", "01023", "Gerona", "Gerona");
 
-INSERT INTO empleados VALUES(1, "Sergio", "Mellón", "Audalo", "43654344A", "654323340", "cocinero", 1);
-INSERT INTO empleados VALUES(2, "Alba", "Celvia", "Cajón", "12345678S", "639876754", "repartidor", 1);
+INSERT INTO empleados VALUES(1, "Sergio", "Mellon", "Audalo", "43654344A", "654323340", "cocinero", 1);
+INSERT INTO empleados VALUES(2, "Alba", "Celvia", "Cajon", "12345678S", "639876754", "repartidor", 1);
 INSERT INTO empleados VALUES(3, "Antonio", "Sala", "Hidalgo", "54678976A", "632120954", "cocinero", 2);
-INSERT INTO empleados VALUES(4, "Maura", "Castejón", "Delcastillo", "87654372Q", "651321232", "repartidor", 2);
+INSERT INTO empleados VALUES(4, "Maura", "Castejon", "Delcastillo", "87654372Q", "651321232", "repartidor", 2);
 
-INSERT INTO categorías VALUES(1, "con carne");
-INSERT INTO categorías VALUES(2, "sin carne");
-INSERT INTO categorías VALUES(3, "vegana");
+INSERT INTO categorias VALUES(1, "con carne");
+INSERT INTO categorias VALUES(2, "sin carne");
+INSERT INTO categorias VALUES(3, "vegana");
 
-INSERT INTO productos VALUES(1, "pizza carbonara", "Jamón, queso, tomate y orégano", "www.imagenpizza1.com", 8, "pizza", 1);
-INSERT INTO productos VALUES(2, "pizza 4 quesos", "chedar, parmesano, roquefort, mozarella, tomate y orégano", "www.imagenpizza2.com", 10, "pizza", 2);
-INSERT INTO productos VALUES(3, "pizza vegana", "albahaca, champiñones, berenjena, tomate y orégano", "www.imagenpizza3.com", 8, "pizza", 3);
-INSERT INTO productos VALUES(4, "hamburguesa clássica", "ternera, queso, tomate, lechuga y mayonesa", "www.imagenhamburguesa1.com", 6, "hamburguesa", 1);
+INSERT INTO productos VALUES(1, "pizza carbonara", "Jamon, queso, tomate y oregano", "www.imagenpizza1.com", 8, "pizza", 1);
+INSERT INTO productos VALUES(2, "pizza 4 quesos", "chedar, parmesano, roquefort, mozarella, tomate y oregano", "www.imagenpizza2.com", 10, "pizza", 2);
+INSERT INTO productos VALUES(3, "pizza vegana", "albahaca, champinones, berenjena, tomate y oregano", "www.imagenpizza3.com", 8, "pizza", 3);
+INSERT INTO productos VALUES(4, "hamburguesa clasica", "ternera, queso, tomate, lechuga y mayonesa", "www.imagenhamburguesa1.com", 6, "hamburguesa", 1);
 INSERT INTO productos VALUES(5, "hamburguesa vegana", "carne beyond, lechuga, tomate y salsa de setas", "www.imagenhamburguesa2.com", 8, "hamburguesa", 3);
 INSERT INTO productos VALUES(6, "agua", "agua de manantial", "www.imagenbebida1.com", 1, "bebida", NULL);
 INSERT INTO productos VALUES(7, "Coca-cola", "bebida refrescante de cola con gas", "www.imagenbebida2.com", 2, "bebida", NULL);
