@@ -1,6 +1,4 @@
-use opticaBorisMaso;
 db.dropDatabase();
-use opticaBorisMaso;
 db.createCollection('OpticaCulDampolla');
 db.createCollection('Comandes');
 db.OpticaCulDampolla.insertOne(

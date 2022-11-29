@@ -1,6 +1,4 @@
-use pizzeriaBorisMaso;
 db.dropDatabase();
-use pizzeriaBorisMaso;
 db.createCollection('Locals');
 db.createCollection('Comandes');
 db.Locals.insertMany(
