@@ -50,15 +50,12 @@ CREATE TABLE productos (
     FOREIGN KEY (id_categoria) REFERENCES categorias(id)
 );
 
-CREATE TABLE comandas (
+CREATE TABLE ventas (
 	id INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
     id_cliente INT UNSIGNED NOT NULL,
-    id_pizza INT UNSIGNED,
-    cantidad1 FLOAT,
-    id_hamburguesa INT UNSIGNED,
-    cantidad2 FLOAT,
-    id_bebida INT UNSIGNED,
-    cantidad3 FLOAT,
+    cantidad_pizzas FLOAT,
+    cantidad_hamburguesas FLOAT,
+    cantidad_bebidas FLOAT,
     precio_total FLOAT NOT NULL,
     tipo ENUM("tienda", "domicilio") NOT NULL,
     id_empleado_cocinero INT UNSIGNED NOT NULL,
@@ -66,12 +63,17 @@ CREATE TABLE comandas (
     id_tienda INT UNSIGNED NOT NULL,
     fecha DATETIME NOT NULL,
     FOREIGN KEY (id_cliente) REFERENCES clientes(id),
-    FOREIGN KEY (id_pizza) REFERENCES productos(id),
-    FOREIGN KEY (id_hamburguesa) REFERENCES productos(id),
-    FOREIGN KEY (id_bebida) REFERENCES productos(id),
     FOREIGN KEY (id_empleado_cocinero) REFERENCES empleados(id),
     FOREIGN KEY (id_empleado_repartidor) REFERENCES empleados(id),
     FOREIGN KEY (id_tienda) REFERENCES tiendas(id)
+);
+
+CREATE TABLE comandas (
+    venta_id INT UNSIGNED NOT NULL,
+    producto_id INT UNSIGNED UNSIGNED NOT NULL,
+    cantidad FLOAT NOT NULL,
+    FOREIGN KEY (venta_id) REFERENCES ventas(id),
+    FOREIGN KEY (producto_id) REFERENCES productos(id)
 );
 
 INSERT INTO clientes VALUES(1, "Pau", "Garriga", "Villahorta", "Calle Vallespir, 14", "08014", "Barcelona", "Barcelona", "639896754");
@@ -99,10 +101,20 @@ INSERT INTO productos VALUES(5, "hamburguesa vegana", "carne beyond, lechuga, to
 INSERT INTO productos VALUES(6, "agua", "agua de manantial", "www.imagenbebida1.com", 1, "bebida", NULL);
 INSERT INTO productos VALUES(7, "Coca-cola", "bebida refrescante de cola con gas", "www.imagenbebida2.com", 2, "bebida", NULL);
 
-INSERT INTO comandas VALUES(1, 1, 1, 1, NULL, NULL, 7, 1, 10, "tienda", 1, NULL, 1, "2022-04-26 14:23:21");
-INSERT INTO comandas VALUES(2, 2, NULL, NULL, 5, 2, 6, 2, 18, "domicilio", 1, 2, 1, "2022-06-13 13:21:19");
-INSERT INTO comandas VALUES(3, 3, 2, 1, NULL, NULL, 6, 1, 13, "tienda", 3, NULL, 2, "2022-08-12 20:12:08");
-INSERT INTO comandas VALUES(4, 4, 1, 1, NULL, NULL, 7, 1, 10, "domicilio", 3, 4, 2, "2022-10-11 19:56:16");
+INSERT INTO ventas VALUES(1, 1, 1, 1, 2, 18, "tienda", 1, NULL, 1, "2022-04-26 14:23:21");
+INSERT INTO  ventas VALUES(2, 2, NULL, 1, 1, 9, "domicilio", 1, 2, 1, "2022-06-13 13:21:19");
+INSERT INTO  ventas VALUES(3, 3, 2, NULL, 2, 24, "tienda", 3, NULL, 2, "2022-08-12 20:12:08");
+INSERT INTO ventas VALUES(4, 4, 1, NULL, 1, 9, "domicilio", 3, 4, 2, "2022-10-11 19:56:16");
 
-SELECT p.nombre, t.localidad, c.cantidad3 FROM productos p JOIN comandas c ON p.id = c.id_bebida JOIN tiendas t ON c.id_tienda = t.id WHERE c.id_bebida IS NOT NULL AND t.localidad = "Barcelona";
-SELECT e.nombre, e.apellido1, e.apellido2, c.id AS id_pedido, c.fecha FROM comandas c JOIN empleados e ON e.id = c.id_empleado_cocinero WHERE c.id_empleado_cocinero = 3;
+INSERT INTO comandas VALUES(1, 1, 1);
+INSERT INTO comandas VALUES(1, 4, 1);
+INSERT INTO comandas VALUES(1, 7, 2);
+INSERT INTO comandas VALUES(2, 5, 1);
+INSERT INTO comandas VALUES(2, 6, 1);
+INSERT INTO comandas VALUES(3, 2, 2);
+INSERT INTO comandas VALUES(3, 7, 2);
+INSERT INTO comandas VALUES(4, 1, 1);
+INSERT INTO comandas VALUES(4, 6, 1);
+
+SELECT SUM(v.cantidad_bebidas), t.localidad FROM ventas v JOIN tiendas t ON t.id = v.id_tienda AND t.localidad = "Barcelona";
+SELECT e.nombre, e.apellido1, e.apellido2, v.id AS id_pedido, v.fecha FROM ventas v JOIN empleados e ON e.id = v.id_empleado_cocinero WHERE v.id_empleado_cocinero = 3;
