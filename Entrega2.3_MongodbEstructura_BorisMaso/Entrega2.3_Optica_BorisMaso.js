@@ -99,6 +99,7 @@ db.Proveidors.insertOne(
 );
 db.Clients.insertOne(
     {
+        "_id": "1",
         "Nom": "Roberto Fuentes Amigo",
         "Adreca": {
             "Carrer": "Vallverde",
@@ -111,7 +112,7 @@ db.Clients.insertOne(
         },
         "CorreuElectronic": "robofont@hotmail.com",
         "DataRegistre": {"$date": "2022-10-22"},
-        "NomClientRecomendador": "",
+        "ClientRecomendador_id": "",
         "Comandes": {
             "Producte_id": "1",
             "Quantitat": "1",
@@ -123,6 +124,7 @@ db.Clients.insertOne(
 );
 db.Clients.insertOne(
     {
+        "_id": "2",
         "Nom": "Paula Miro Albino",
         "Adreca": {
             "Carrer": "Rocagran",
@@ -135,7 +137,7 @@ db.Clients.insertOne(
         },
         "CorreuElectronic": "plmr@gmail.com",
         "DataRegistre": {"$date": "2022-11-16"},
-        "NomClientRecomendador": "Roberto Fuentes Amigo",
+        "ClientRecomendador_id": "1",
         "Comandes": {
             "Producte_id": "3",
             "Quantitat": "1",
